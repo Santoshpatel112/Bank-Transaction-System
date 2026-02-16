@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import authRouter from './Routes/auth.Route.js'
 dotenv.config();
 
 import ConnectDb from './config/db.js';
@@ -13,7 +14,7 @@ app.use(cookieParser);
 
 ConnectDb();
 app.get('/',(req,res)=>{
-    res.send("MahaShivratri Ki Hardik Subhkamanye | 🌸Har Har Mahadev🌸");
+    res.send("🌸Har Har Mahadev🌸");
 })
 
 // connectRoute

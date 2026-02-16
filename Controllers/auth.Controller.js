@@ -1,4 +1,4 @@
-import { UserModel } from "../Models/User.Models";
+import { UserModel } from "../Models/User.Models.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 /* POST api/auth/register */
@@ -44,3 +44,4 @@ export async function UserRegistration(req,res){
         
      }
 }
+export default UserRegistration;
