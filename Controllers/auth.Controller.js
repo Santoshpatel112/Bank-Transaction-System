@@ -4,44 +4,41 @@ import jwt from 'jsonwebtoken';
 /* POST api/auth/register */
 export async function UserRegistration(req,res){
      try {
-        const {name ,email,password} =req.body()
+        const {name ,email,password} =req.body;
         if(!name || !email ||!password){
-            return res.json({message :'all field Required'},{
-                sucess:false
-            },{
-                status:400
-            }
-            )
+            return res.status(400).json({
+                message :'all field Required',
+                success:false
+            });
         }
         // check already exit
-        const Exitinguser=await UserModel.findOne(email);
+        const Exitinguser=await UserModel.findOne({email});
         if(Exitinguser){
-             return res.json({message :'User Alreday Exit'},{sucess:false},{status:400})
+             return res.status(400).json({message :'User Already Exists',success:false})
         }
-        const hashPassword= await bcrypt.hash(password,10);
-        const User=UserModel.create({
+        // Password will be hashed by the pre-save hook in the model
+        const User= await UserModel.create({
             name,
             email,
-            password :hashPassword
+            password
         })
         // in the token payload and JWT Secreate
-        const token=jwt.sign({UserId:User_id},process.env.JWT_Secreat ,{expiresIn:"3d"});
+        const token=jwt.sign({UserId:User._id},process.env.JWT_Secreat ,{expiresIn:"3d"});
 
-        res.cookies("token",token);
+        res.cookie("token",token);
 
-        return res.status(201).json({message :"User Registration SucessFully"},{
-            sucess:false
-        },
-        {
-            _id:(await User)._id,
-            email :User.email,
-            name:User.name
-        },{
+        return res.status(201).json({
+            message :"User Registration Successfully",
+            success:true,
+            user: {
+                _id:User._id,
+                email :User.email,
+                name:User.name
+            },
             token:token
-        }
-    )
+        });
      } catch (error) {
-        
+        return res.status(500).json({message: error.message, success:false});
      }
 }
 export default UserRegistration;

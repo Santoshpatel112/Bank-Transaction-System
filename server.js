@@ -10,7 +10,7 @@ const PORT=process.env.PORT ||3000;
 
 // middleware
 app.use(express.json());
-app.use(cookieParser);
+app.use(cookieParser());
 
 ConnectDb();
 app.get('/',(req,res)=>{
@@ -19,7 +19,7 @@ app.get('/',(req,res)=>{
 
 // connectRoute
 
-app.use("api/auth",authRouter)
+app.use("/api/auth",authRouter)
 
 app.listen(PORT,()=>{
     console.log(`Server is Listning on ${PORT}`);
