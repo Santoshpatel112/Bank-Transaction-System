@@ -7,10 +7,17 @@ import ConnectDb from './config/db.js';
 const app=express();
 const PORT=process.env.PORT ||3000;
 
+// middleware
+app.use(express.json());
+
 ConnectDb();
 app.get('/',(req,res)=>{
     res.send("MahaShivratri Ki Hardik Subhkamanye | 🌸Har Har Mahadev🌸");
 })
+
+// connectRoute
+
+app.use("api/auth",authRouter)
 
 app.listen(PORT,()=>{
     console.log(`Server is Listning on ${PORT}`);
