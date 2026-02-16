@@ -3,17 +3,24 @@ import mongoose  from "mongoose";
 const UserSchema=new mongoose.Schema({
     name:{
         type:String,
-        required:true,
+        required:[true,'Name is required for Creating an account'],
+
     },
     email:{
         type:String,
-        required:true,
-        emailRegex :/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        trim:true,
+        lowecase:true,
+        required:[true,'Email is required for Creating an Account'],
+        emailRegex :[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            'Invalid Email Address'
+        ],
+        unique:[true,'Email Already Exits']
     },
     password :{
         type:String,
-        required:true,
-        max:[6,'Password must be length 6']
+        required:[true,'Password is required for Creating an Account'],
+        minlength:[6,'Password Should be Contain 6 Character'],
+        select:false
     }
 },{timestamps:true})
 
