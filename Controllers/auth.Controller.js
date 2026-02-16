@@ -31,7 +31,15 @@ export async function UserRegistration(req,res){
 
         return res.status(201).json({message :"User Registration SucessFully"},{
             sucess:false
-        })
+        },
+        {
+            _id:(await User)._id,
+            email :User.email,
+            name:User.name
+        },{
+            token:token
+        }
+    )
      } catch (error) {
         
      }
