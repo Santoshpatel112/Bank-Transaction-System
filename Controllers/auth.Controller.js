@@ -41,4 +41,38 @@ export async function UserRegistration(req,res){
         return res.status(500).json({message: error.message, success:false});
      }
 }
-export default UserRegistration;
+
+
+
+export async function UserLogin(req,res){
+    try {
+        const {email,password}=req.body;
+        const user=await UserModel.findOne({email}).select("+password");
+        if(!user){
+            return res.status(401).json({message:"Email or Password Invalid", success:false});
+        }
+        const isvalidpassword=await user.comparePassword(password);
+        if(!isvalidpassword){
+            return res.status(401).json({message:"Wrong Password", success:false});
+        }
+
+        const token=jwt.sign({UserId:user._id},process.env.JWT_Secreat ,{expiresIn:"3d"});
+
+        res.cookie("token",token);
+
+        return res.status(200).json({
+            message: "Login successful",
+            success: true,
+            user:{
+                _id:user._id,
+                email:user.email,
+                name:user.name
+            },
+            token:token
+        })
+    } catch (error) {
+        return res.status(500).json({message: error.message, success:false})
+    }
+}
+
+export default {UserRegistration ,UserLogin};
