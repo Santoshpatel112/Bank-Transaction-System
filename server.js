@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRouter from './Routes/auth.Route.js'
+import accountRouter from './Routes/Account.Route.js'
 dotenv.config();
 
 import ConnectDb from './config/db.js';
@@ -20,7 +21,7 @@ app.get('/',(req,res)=>{
 // connectRoute
 
 app.use("/api/auth",authRouter)
-
+app.use("api/account",accountRouter)
 app.listen(PORT,()=>{
     console.log(`Server is Listning on ${PORT}`);
 })
