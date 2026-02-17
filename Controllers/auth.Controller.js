@@ -1,6 +1,6 @@
 import { UserModel } from "../Models/User.Models.js";
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { sendRegisterEmail } from '../services/email.service.js';
 /* POST api/auth/register */
 export async function UserRegistration(req,res){
      try {
@@ -26,6 +26,9 @@ export async function UserRegistration(req,res){
         const token=jwt.sign({UserId:User._id},process.env.JWT_Secreat ,{expiresIn:"3d"});
 
         res.cookie("token",token);
+
+        // Send welcome email
+        await sendRegisterEmail(User.email, User.name);
 
         return res.status(201).json({
             message :"User Registration Successfully",
