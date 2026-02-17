@@ -8,8 +8,10 @@ const AccountSchema=mongoose.Schema({
         index:true
     },
     status:{
+        type :String,
         enum:{
             values:["Active","Frozen","Closed"],
+            defalut:"Active",
             message :"Status can be Eigther Active Frozen or Closed"
         },
         type:String
