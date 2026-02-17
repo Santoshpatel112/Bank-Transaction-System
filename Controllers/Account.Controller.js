@@ -1,4 +1,4 @@
-import { AccountModel } from "../Models/Account.Models";
+import { AccountModel } from "../Models/Account.Models.js";
 
 export async function creatAccount(req,res){
     try {

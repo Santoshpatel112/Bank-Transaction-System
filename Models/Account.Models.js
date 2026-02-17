@@ -26,4 +26,4 @@ const AccountSchema=mongoose.Schema({
 
 AccountSchema.index({user:1,status:1});
 
-export const AccountModel=mongoose.models("Account",AccountSchema);
+export const AccountModel=mongoose.model("Account",AccountSchema);
