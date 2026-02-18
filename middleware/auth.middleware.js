@@ -2,7 +2,7 @@ import { UserModel } from "../Models/User.Models.js";
 import jwt from 'jsonwebtoken'
 
 async function authmiddleware(req,res,next){
-    const token =req.cookies.token || res.headers.authorization?.split(" ")[1];
+    const token =req.cookies.token || req.headers.authorization?.split(" ")[1];
 
     if(!token){
         return res.status(404).json({message :"UnAuthorized Acess | token is missing"});
@@ -10,9 +10,8 @@ async function authmiddleware(req,res,next){
 
         try {
             const decoded=jwt.verify(token,process.env.JWT_Secreat)
-            const user= await UserModel.findByID(decoded.userId);   
+            const user= await UserModel.findById(decoded.UserId);   
             req.user=user;
-            req.user(decoded);
             return next();
         } 
         catch(error){

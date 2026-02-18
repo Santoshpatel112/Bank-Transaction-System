@@ -21,7 +21,7 @@ app.get('/',(req,res)=>{
 // connectRoute
 
 app.use("/api/auth",authRouter)
-app.use("api/account",accountRouter)
+app.use("/api/account",accountRouter)
 app.listen(PORT,()=>{
     console.log(`Server is Listning on ${PORT}`);
 })
