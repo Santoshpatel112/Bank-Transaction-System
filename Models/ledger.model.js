@@ -33,7 +33,6 @@ const LadgerSchema=new mongoose.Schema({
 
 function preventLedgerModification(next){
     throw new Error ("Ledger Entry are immutable and can not be modified or deleted");
-
 }
 
 LadgerSchema.pre('findOneAndUpdate',preventLedgerModification);
