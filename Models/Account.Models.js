@@ -1,5 +1,5 @@
 import mongoose, { mongo } from "mongoose";
-
+import Ladgermodel from "./ledger.model";
 const AccountSchema=mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
@@ -25,5 +25,32 @@ const AccountSchema=mongoose.Schema({
 },{timestamps:true})
 
 AccountSchema.index({user:1,status:1});
+
+AccountSchema.methods.getBalance =async function(){
+
+    const balencedata= await Ladgermodel.aggregate([
+        {$match :{account :this._id}},
+        {$group :{
+            _id:null,
+            totalDabit :{
+                $sum :{
+                    $cond:[
+                      {$eq :["#type","Debit"]},"$amount",
+                      0
+                    ]
+                }
+            },
+              totalCredet :{
+                $sum :{
+                    $cond:[
+                      {$eq :["#type","Credit"]},"$amount",
+                      0
+                    ]
+                }
+            }
+
+        }}
+    ])
+}
 
 export const AccountModel=mongoose.model("Account",AccountSchema);
