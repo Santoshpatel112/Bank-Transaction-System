@@ -96,8 +96,17 @@ async function createTransction(req,res){
 
     /*5. Create Transcition Pending */
 
+    const creatTransctionPending=()=>{
+        try {
+            
+        } catch (error) {
+            return res.status(400).json({
+                message :"Failed to create pending Transction"
+            },
+        {sucess :false})
+        }
+    }
 
-    
     } catch (error) {
         
     }
